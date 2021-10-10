@@ -1,35 +1,37 @@
 package br.com.alura.livraria.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.alura.livraria.dto.AutorInputDTO;
 import br.com.alura.livraria.dto.AutorOutputDTO;
 import br.com.alura.livraria.modelo.Autor;
+import br.com.alura.livraria.repository.AutorRepository;
 
 @Service
 public class AutorService {
 
-    private List<Autor> autores = new ArrayList<>();
+    @Autowired
+    private AutorRepository autorRepository;
     private ModelMapper modelMapper = new ModelMapper();
 
     public List<AutorOutputDTO> listar() {
-
-        return autores.stream()
+        List<Autor> autores = autorRepository.findAll();
+        return autores
+                .stream()
                 .map(t -> modelMapper.map(t, AutorOutputDTO.class))
                 .collect(Collectors.toList());
     }
 
     public void cadastrar(@Valid AutorInputDTO dto) {
-        Autor Autor = new ModelMapper().map(dto, Autor.class);
-
-        autores.add(Autor);
+        Autor autor = new ModelMapper().map(dto, Autor.class);
+        autorRepository.save(autor);
 
     }
 

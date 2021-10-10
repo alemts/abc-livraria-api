@@ -35,25 +35,3 @@ public class LivroController {
         service.cadastrar(dto);
     }
 }
-
-/*
-public class LivroController {
-
-    private List<Livro> listLivros = new ArrayList<>();
-    
-    private ModelMapper modelMapper = new ModelMapper();    
-
-    @GetMapping
-    public List<LivroOutputDTO> listar() {
-        return listLivros.stream()
-                .map(t->modelMapper.map(t, LivroOutputDTO.class))
-                .collect(Collectors.toList());
-    }
-
-    @PostMapping
-    public void cadastrar(@RequestBody @Valid LivroInputDTO dto) {
-        Livro livro = modelMapper.map(dto, Livro.class);
-        listLivros.add(livro);
-    }
-}
-*/

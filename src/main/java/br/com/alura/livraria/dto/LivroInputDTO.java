@@ -10,6 +10,7 @@ import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Getter;
@@ -19,11 +20,11 @@ import lombok.Setter;
 @Setter
 public class LivroInputDTO {
     
-    @NotNull @NotEmpty
+    @NotBlank                           // Juncao do NotNull + NotEmpty
     @Size(min=10)
     private String titulo;              // Titulo deve ser obrigatorio e ter no minimo 10 caracteres;
 
-    @NotBlank                           // Juncao do NotNull + NMotEmpty
+    @NotNull
     @PastOrPresent
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dataLancamento;   // Data de lancamento deve ser uma data menor ou igual a data atual;
@@ -31,7 +32,9 @@ public class LivroInputDTO {
     @Positive
     @Min(100)
     @NotNull
-    private int numeroPaginas;          // Numero de paginas deve ser maior ou igual a 100.
+    private Integer numeroPaginas;      // Numero de paginas deve ser maior ou igual a 100.
 
-    private AutorInputDTO autor;
+    //private AutorInputDTO autor;
+    @JsonAlias("autor_id")
+    private Long autorId;
 }
