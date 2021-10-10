@@ -1,10 +1,11 @@
 package br.com.alura.livraria.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,9 +24,9 @@ public class AutorController
 	private AutorService service;
 
 	@GetMapping
-	public List<AutorOutputDTO> listar() {
+	public Page<AutorOutputDTO> listar(@PageableDefault(size=20) Pageable paginacao) {
 
-		return service.listar();
+		return service.listar(paginacao);
 
 	}
 	
