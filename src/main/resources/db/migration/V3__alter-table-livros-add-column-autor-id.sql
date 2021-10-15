@@ -1,5 +1,5 @@
 alter table livros
-  add column autor_id bigint not null;
+  add column Autor_Id bigint not null;
   
 alter table livros
-  add foreign key(autor_id) references autores(id);
+  add foreign key(Autor_Id) references autores(Id);

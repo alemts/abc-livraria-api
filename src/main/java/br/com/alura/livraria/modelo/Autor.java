@@ -29,10 +29,13 @@ public class Autor {
     private Long id;
 
     private String nome;
+    
     private String email;
+    
+    @Column(name = "Data_Nascimento")
     private LocalDate dataNascimento;
 
-    @Column(name = "miniCV")
+    @Column(name = "Mini_CV")
     private String miniCurriculo;
 
 }

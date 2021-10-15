@@ -1,7 +1,7 @@
 create table livros(
-  id bigint not null auto_increment,
-  titulo varchar(100) not null,
-  dataLancamento date not null,
-  numeroPaginas int not null,
+  Id bigint not null auto_increment,
+  Titulo varchar(100) not null,
+  Data_Lancamento date not null,
+  Numero_Paginas int not null,
   primary key(id)
 );

@@ -1,10 +1,29 @@
 package br.com.alura.livraria.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import br.com.alura.livraria.dto.ItemLivroAutorDto;
 import br.com.alura.livraria.modelo.Livro;
 
-public interface LivroRepository extends JpaRepository<Livro, Long>{
+public interface LivroRepository extends JpaRepository<Livro, Long> {
+
+    final String jpaAbreConstrutorItemLivroAutorDto = "new br.com.alura.livraria.dto.ItemLivroAutorDto ( ";
+    final String jpaFechaConstrutor = " ) ";
+    
+    @Query(
+           "    SELECT                                                      " +
+           jpaAbreConstrutorItemLivroAutorDto                                 +
+           "           au.nome,                                             " + //NomeAutor 
+           "           count(li),                                           " + //QuantidadeLivrosPorAutor
+           "           count(li) / (SELECT count(li2) FROM Livro li2) * 1.0 " + //PercentualLivrosPorAutor
+           jpaFechaConstrutor                                                 +
+           "      FROM Livro li                                             " + 
+           "INNER JOIN Autor au ON au.id = li.autor                         " + 
+           "  GROUP BY au.nome "
+          )
+    List<ItemLivroAutorDto> relatorioQuantidadeLivrosPublicados();
 
 }
