@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.alura.livraria.dto.AutorInputDTO;
 import br.com.alura.livraria.dto.AutorOutputDTO;
+import br.com.alura.livraria.dto.LivroOutputDTO;
 import br.com.alura.livraria.modelo.Autor;
 import br.com.alura.livraria.repository.AutorRepository;
 
@@ -28,10 +29,12 @@ public class AutorService {
     }
 
     @Transactional
-    public void cadastrar(@Valid AutorInputDTO dto) {
+    public AutorOutputDTO cadastrar(@Valid AutorInputDTO dto) {
         Autor autor = new ModelMapper().map(dto, Autor.class);
+        
         autorRepository.save(autor);
 
+        return modelMapper.map(autor, AutorOutputDTO.class);
     }
 
 }

@@ -11,6 +11,8 @@ import lombok.Setter;
 @Setter
 public class AutorOutputDTO {
     
+    private Long id;
+    
     private String nome;
     
     private String email;

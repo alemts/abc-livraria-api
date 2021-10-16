@@ -10,12 +10,12 @@ import lombok.Setter;
 @Getter @Setter
 public class LivroOutputDTO {
     
+    private Long id;
+    
     private String titulo;
     
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate dataLancamento;
     
-    private int numeroPaginas;
-    
-    private AutorOutputDTO autor;
+    private Integer numeroPaginas;
 }

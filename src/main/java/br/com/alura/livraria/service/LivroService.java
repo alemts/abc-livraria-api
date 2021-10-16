@@ -28,11 +28,12 @@ public class LivroService {
     }
 
     @Transactional
-    public void cadastrar(@Valid LivroInputDTO dto) {
+    public LivroOutputDTO cadastrar(@Valid LivroInputDTO dto) {
         Livro livro = new ModelMapper().map(dto, Livro.class);
         livro.setId(null);
 
         livroRepository.save(livro);
+        return modelMapper.map(livro, LivroOutputDTO.class);
     }
 
 }
