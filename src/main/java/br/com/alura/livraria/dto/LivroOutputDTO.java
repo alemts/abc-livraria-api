@@ -18,4 +18,6 @@ public class LivroOutputDTO {
     private LocalDate dataLancamento;
     
     private Integer numeroPaginas;
+    
+    private AutorOutputDTO autor;
 }
