@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
@@ -39,14 +40,19 @@ public class LivroService {
 
     @Transactional
     public LivroOutputDTO cadastrar(@Valid LivroInputDTO dto) {
-        Livro livro = modelMapper.map(dto, Livro.class);
-        Autor autor = autorRepository.getById(dto.getAutorId());
+        try {
+            Autor autor = autorRepository.getById(dto.getAutorId());
+            Livro livro = modelMapper.map(dto, Livro.class);
+            livro.setId(null);
+            livro.setAutor(autor);
 
-        livro.setId(null);
-        livro.setAutor(autor);
-        livroRepository.save(livro);
+            livroRepository.save(livro);
 
-        return modelMapper.map(livro, LivroOutputDTO.class);        
+            return modelMapper.map(livro, LivroOutputDTO.class);        
+        }
+        catch (EntityNotFoundException e) {
+            throw new IllegalArgumentException("autor inexistente");
+        }
     }
     
     public List<LivroOutputDTO> ultimasPublicacoesDoAutor(String nome, LocalDate data) {
