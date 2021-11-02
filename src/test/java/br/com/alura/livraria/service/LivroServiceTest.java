@@ -30,18 +30,24 @@ class LivroServiceTest {
 
     @InjectMocks
     private LivroService service;
-    
-    @Test
-    void deveriaCadastrarUmLivro() {
+
+    private LivroInputDTO criarLivroInputDTO() {
         LivroInputDTO inputDto = new LivroInputDTO(
                 "O Muro de Berlim",
                 LocalDate.now(),
                 120,
                 2L
             );
-        
+        return inputDto;
+    }
+    
+    @Test
+    void deveriaCadastrarUmLivro() {
+        LivroInputDTO inputDto = criarLivroInputDTO();
         
         LivroOutputDTO outputDto = service.cadastrar(inputDto);
+        
+        Mockito.verify(livroRepository).save(Mockito.any());
         
         assertEquals(outputDto.getTitulo(), inputDto.getTitulo());
         assertEquals(outputDto.getDataLancamento(), inputDto.getDataLancamento());
@@ -50,12 +56,7 @@ class LivroServiceTest {
 
     @Test
     void naoDeveriaCadastrarUmLivroComAutorInexistente() {
-        LivroInputDTO inputDto = new LivroInputDTO(
-                "O Muro de Berlim",
-                LocalDate.now(),
-                120,
-                9999L
-            );
+        LivroInputDTO inputDto = criarLivroInputDTO();
         
         Mockito
         .when(autorRepository.getById(inputDto.getAutorId()))
@@ -64,8 +65,5 @@ class LivroServiceTest {
         assertThrows(
                 IllegalArgumentException.class,
                 () -> service.cadastrar(inputDto));
-                
-                
-        
     }
 }
