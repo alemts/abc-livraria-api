@@ -1,12 +1,15 @@
 package br.com.alura.livraria.service;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,5 +48,12 @@ public class LivroService {
 
         return modelMapper.map(livro, LivroOutputDTO.class);        
     }
-
+    
+    public List<LivroOutputDTO> ultimasPublicacoesDoAutor(String nome, LocalDate data) {
+        return livroRepository
+                .ultimasPublicacoesDoAutor(nome, data)
+                .stream()
+                .map(l -> modelMapper.map(l, LivroOutputDTO.class))
+                .collect(Collectors.toList());
+    }
 }

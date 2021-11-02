@@ -1,5 +1,6 @@
 package br.com.alura.livraria.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,4 +27,12 @@ public interface LivroRepository extends JpaRepository<Livro, Long> {
           )
     List<ItemLivroAutorDto> relatorioQuantidadeLivrosPublicados();
 
+    @Query(
+           "SELECT l                        " +
+           " FROM Livro l                   " +
+           " JOIN l.autor a                 " +
+           "WHERE a.nome            = :nome " +
+           "  AND l.dataLancamento >= :data "
+          )
+    List<Livro> ultimasPublicacoesDoAutor(String nome, LocalDate data);
 }

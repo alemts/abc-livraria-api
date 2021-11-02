@@ -1,6 +1,8 @@
 package br.com.alura.livraria.controller;
 
 import java.net.URI;
+import java.time.LocalDate;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -29,12 +31,14 @@ public class LivroController {
     private LivroService service;
 
     @GetMapping
-    public Page<LivroOutputDTO> listar(@PageableDefault(size=10) Pageable paginacao) {
+    public Page<LivroOutputDTO> listar(
+            @PageableDefault(size=10) Pageable paginacao) {
         return service.listar(paginacao);
     }
 
     @PostMapping
-    public ResponseEntity<LivroOutputDTO> cadastrar(@RequestBody @Valid LivroInputDTO dto,
+    public ResponseEntity<LivroOutputDTO> cadastrar(
+            @RequestBody @Valid LivroInputDTO dto,
             UriComponentsBuilder uriBuilder) {
         LivroOutputDTO livroOutputDTO = service.cadastrar(dto);
         
@@ -43,6 +47,14 @@ public class LivroController {
                 .buildAndExpand(livroOutputDTO.getId())
                 .toUri();
 
-        return ResponseEntity.created(location).body(livroOutputDTO);
+        return ResponseEntity
+                .created(location)
+                .body(livroOutputDTO);
+    }
+    
+    @GetMapping("/lancamentos")
+    public List<LivroOutputDTO> ultimasPublicacoesDoAutor(
+            String nome, LocalDate data) {
+        return service.ultimasPublicacoesDoAutor(nome,data);
     }
 }
