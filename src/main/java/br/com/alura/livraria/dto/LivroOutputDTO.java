@@ -7,7 +7,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
+@Setter
 public class LivroOutputDTO {
     
     private Long id;
@@ -19,5 +20,5 @@ public class LivroOutputDTO {
     
     private Integer numeroPaginas;
     
-    private AutorOutputDTO autor;
+    //private AutorOutputDTO autor;
 }
