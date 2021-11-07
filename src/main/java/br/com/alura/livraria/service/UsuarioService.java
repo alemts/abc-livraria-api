@@ -12,7 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.alura.livraria.dto.UsuarioDto;
 import br.com.alura.livraria.dto.UsuarioFormDto;
+import br.com.alura.livraria.modelo.Perfil;
 import br.com.alura.livraria.modelo.Usuario;
+import br.com.alura.livraria.repository.PerfilRepository;
 import br.com.alura.livraria.repository.UsuarioRepository;
 
 @Service
@@ -21,6 +23,9 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
     
+    @Autowired
+    private PerfilRepository perfilRepository;
+
     @Autowired
     private ModelMapper modelMapper;
     
@@ -35,7 +40,11 @@ public class UsuarioService {
     @Transactional
     public UsuarioDto cadastrar(UsuarioFormDto dto) {
         Usuario usuario = modelMapper.map(dto, Usuario.class);
-        
+        usuario.setId(null);
+
+        Perfil perfil = perfilRepository.getById(dto.getPerfilId());
+        usuario.adicionarPerfil(perfil);
+
         String senha = new Random().nextInt(999999) + "";
         usuario.setSenha(bCryptPasswordEncoder.encode(senha));
         
