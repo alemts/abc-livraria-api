@@ -8,5 +8,7 @@ import lombok.Setter;
 public class LivroDetalhadoOutputDTO extends LivroOutputDTO {
     
     private AutorOutputDTO autor;
+    
+    private UsuarioDto usuario;
 
 }

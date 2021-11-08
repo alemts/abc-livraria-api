@@ -3,11 +3,15 @@ package br.com.alura.livraria.repository;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import br.com.alura.livraria.dto.ItemLivroAutorDto;
+import br.com.alura.livraria.dto.LivroOutputDTO;
 import br.com.alura.livraria.modelo.Livro;
+import br.com.alura.livraria.modelo.Usuario;
 
 public interface LivroRepository extends JpaRepository<Livro, Long> {
 
@@ -35,4 +39,7 @@ public interface LivroRepository extends JpaRepository<Livro, Long> {
            "  AND l.dataLancamento >= :data "
           )
     List<Livro> ultimasPublicacoesDoAutor(String nome, LocalDate data);
+
+    Page<Livro> findAllByUsuario(Pageable paginacao, Usuario usuario);
+    
 }

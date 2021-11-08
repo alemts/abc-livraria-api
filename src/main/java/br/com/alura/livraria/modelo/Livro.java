@@ -12,13 +12,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
-//@ToString(exclude = {"autor"})
 @Getter
 @Setter
+@ToString
+@EqualsAndHashCode(of = "id")
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -40,12 +43,18 @@ public class Livro {
     @ManyToOne
     @JoinColumn(name = "autor_id") // esse ja eh o nome default
     private Autor autor;
+    
+    //Sem @JoinColumn o nome da coluna fica no padrao: usuario_id
+    @ManyToOne
+    private Usuario usuario;
 
-    public Livro(String titulo, LocalDate dataLancamento, Integer numeroPaginas, Autor autor) {
+    public Livro(String titulo, LocalDate dataLancamento, Integer numeroPaginas,
+            Autor autor, Usuario usuario) {
         this.titulo = titulo;
         this.dataLancamento = dataLancamento;
         this.numeroPaginas = numeroPaginas;
         this.autor = autor;
+        this.usuario = usuario;
     }
 
     public void atualizarInformacoes(String titulo, LocalDate dataLancamento, Integer numeroPaginas) {

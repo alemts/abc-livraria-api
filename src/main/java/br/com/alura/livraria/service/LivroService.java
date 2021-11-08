@@ -20,6 +20,7 @@ import br.com.alura.livraria.dto.LivroInputDTO;
 import br.com.alura.livraria.dto.LivroOutputDTO;
 import br.com.alura.livraria.modelo.Autor;
 import br.com.alura.livraria.modelo.Livro;
+import br.com.alura.livraria.modelo.Usuario;
 import br.com.alura.livraria.repository.AutorRepository;
 import br.com.alura.livraria.repository.LivroRepository;
 
@@ -31,23 +32,24 @@ public class LivroService {
     
     @Autowired
     private AutorRepository autorRepository;
-    
+
     @Autowired
     private ModelMapper modelMapper;
 
-    public Page<LivroOutputDTO> listar(Pageable paginacao) {
+    public Page<LivroOutputDTO> listar(Pageable paginacao, Usuario logado) {
         return livroRepository
-                .findAll(paginacao)
+                .findAllByUsuario(paginacao, logado)
                 .map(l -> modelMapper.map(l, LivroOutputDTO.class));
     }
 
     @Transactional
-    public LivroOutputDTO cadastrar(@Valid LivroInputDTO dto) {
+    public LivroOutputDTO cadastrar(@Valid LivroInputDTO dto, Usuario logado) {
         try {
             Autor autor = autorRepository.getById(dto.getAutorId());
             Livro livro = modelMapper.map(dto, Livro.class);
             livro.setId(null);
             livro.setAutor(autor);
+            livro.setUsuario(logado);
 
             livroRepository.save(livro);
 
@@ -67,8 +69,9 @@ public class LivroService {
     }
 
     @Transactional
-    public LivroOutputDTO atualizar(AtualizacaoLivroInputDTO dto) {
+    public LivroOutputDTO atualizar(AtualizacaoLivroInputDTO dto, Usuario logado) {
         Livro livro = livroRepository.getById(dto.getId());
+        livro.setUsuario(logado);
         
         livro.atualizarInformacoes(
                 dto.getTitulo(), 
