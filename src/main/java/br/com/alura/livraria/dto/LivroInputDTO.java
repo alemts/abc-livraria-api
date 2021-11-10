@@ -40,4 +40,7 @@ public class LivroInputDTO {
     //private AutorInputDTO autor;
     @JsonAlias("autor_id")
     private Long autorId;
+    
+    @JsonAlias("usuario_id")
+    private Long usuarioId;
 }

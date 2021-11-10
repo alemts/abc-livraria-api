@@ -17,6 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import br.com.alura.livraria.dto.ItemLivroAutorDto;
 import br.com.alura.livraria.modelo.Autor;
 import br.com.alura.livraria.modelo.Livro;
+import br.com.alura.livraria.modelo.Usuario;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
@@ -85,12 +86,17 @@ class LivroRepositoryTest {
             );
         em.persist(rita);
 
+        //Criando um usuario qualquer dado nao eh importante para este teste
+        Usuario usuario = new Usuario("Alexandre", "ale@email.com", "123");
+        em.persist(usuario);
+        
         // Cinco livros dos quatro autores
         Livro livro1 = new Livro(
                 "Livro",
                 LocalDate.now(),
                 120,
-                andre
+                andre,
+                usuario
             );
         em.persist(livro1);
 
@@ -98,7 +104,8 @@ class LivroRepositoryTest {
                 "Livro",
                 LocalDate.now(),
                 120,
-                fernanda
+                fernanda,
+                usuario
             );
         em.persist(livro2);
         
@@ -106,7 +113,8 @@ class LivroRepositoryTest {
                 "Livro",
                 LocalDate.now(),
                 120,
-                juliana
+                juliana,
+                usuario
             );
         em.persist(livro3);
         
@@ -114,7 +122,8 @@ class LivroRepositoryTest {
                 "Livro",
                 LocalDate.now(),
                 120,
-                fernanda
+                fernanda,
+                usuario
             );
         em.persist(livro4);
         
@@ -122,12 +131,12 @@ class LivroRepositoryTest {
                 "Livro",
                 LocalDate.now(),
                 120,
-                rita
+                rita,
+                usuario
             );
         em.persist(livro5);
 
         List<ItemLivroAutorDto> relatorio = repository.relatorioQuantidadeLivrosPublicados();
-        //assertEquals(4, relatorio.size());
         Assertions
         .assertThat(relatorio)
         .hasSize(4)
