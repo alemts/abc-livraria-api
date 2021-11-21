@@ -6,4 +6,4 @@ COPY target/*.jar /app/Livraria.jar
 
 EXPOSE 8180
 
-CMD java -XX:+UseContainerSupport -jar Livraria.jar
+CMD java -XX:+UseContainerSupport -Xmx512m -Dserver.port=${PORT} -jar Livraria.jar
