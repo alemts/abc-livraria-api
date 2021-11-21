@@ -9,18 +9,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import br.com.alura.livraria.dto.ItemLivroAutorDto;
-import br.com.alura.livraria.dto.LivroOutputDTO;
 import br.com.alura.livraria.modelo.Livro;
 import br.com.alura.livraria.modelo.Usuario;
 
 public interface LivroRepository extends JpaRepository<Livro, Long> {
 
-    final String jpaAbreConstrutorItemLivroAutorDto = "new br.com.alura.livraria.dto.ItemLivroAutorDto ( ";
+    final String jpaAbreConstrutor = "new br.com.alura.livraria.dto.ItemLivroAutorDto ( ";
     final String jpaFechaConstrutor = " ) ";
     
     @Query(
            "    SELECT                                                      " +
-           jpaAbreConstrutorItemLivroAutorDto                                 +
+           jpaAbreConstrutor                                                  +
            "           au.nome,                                             " + //NomeAutor 
            "           count(li),                                           " + //QuantidadeLivrosPorAutor
            "           count(li) / (SELECT count(li2) FROM Livro li2) * 1.0 " + //PercentualLivrosPorAutor

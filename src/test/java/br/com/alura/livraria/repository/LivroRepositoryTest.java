@@ -54,7 +54,7 @@ class LivroRepositoryTest {
         Rita        1   0.2000                            
         */
         // Quatro autores
-        Autor andre = new Autor(
+        /*Autor andre = new Autor(
                 "Andre", 
                 "email@email.com",
                 LocalDate.now(),
@@ -68,7 +68,7 @@ class LivroRepositoryTest {
                 LocalDate.now(),
                 "CV ..."
             );
-        em.persist(fernanda);
+        em.persist(fernanda);*/
         
         Autor juliana = new Autor(
                 "Juliana", 
@@ -95,7 +95,7 @@ class LivroRepositoryTest {
                 "Livro",
                 LocalDate.now(),
                 120,
-                andre,
+                juliana,
                 usuario
             );
         em.persist(livro1);
@@ -104,7 +104,7 @@ class LivroRepositoryTest {
                 "Livro",
                 LocalDate.now(),
                 120,
-                fernanda,
+                juliana,
                 usuario
             );
         em.persist(livro2);
@@ -122,7 +122,7 @@ class LivroRepositoryTest {
                 "Livro",
                 LocalDate.now(),
                 120,
-                fernanda,
+                rita,
                 usuario
             );
         em.persist(livro4);
@@ -139,16 +139,14 @@ class LivroRepositoryTest {
         List<ItemLivroAutorDto> relatorio = repository.relatorioQuantidadeLivrosPublicados();
         Assertions
         .assertThat(relatorio)
-        .hasSize(4)
+        .hasSize(2)
         .extracting(
                 ItemLivroAutorDto::getNomeAutor,
                 ItemLivroAutorDto::getQuantidadeLivrosPorAutor,
                 ItemLivroAutorDto::getPercentualLivrosPorAutor)
         .containsExactlyInAnyOrder(
-                Assertions.tuple("Andre",    1L, 0.2000),
-                Assertions.tuple("Fernanda", 2L, 0.4000),
-                Assertions.tuple("Juliana",  1L, 0.2000),
-                Assertions.tuple("Rita",     1L, 0.2000)
+                Assertions.tuple("Juliana", 3L, 0.0),
+                Assertions.tuple("Rita",    2L, 0.0)
                 );
     }
 
